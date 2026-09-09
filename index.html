@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>KOTOba Flashcards — Belajar Bahasa Jepang</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+   ROOT / COLOR
+========================================================= */
+
+:root{
+
+  --olive-bg: #7f8b68;
+  --olive-bg-2: #737f5d;
+
+  --olive-dark: #596343;
+  --olive-darker: #4e583b;
+
+  --card-bg: rgba(255,255,255,0.16);
+  --card-bg-hover: rgba(255,255,255,0.24);
+
+  --off-white: #f7f6f0;
+
+  --text-soft: rgba(247,246,240,0.78);
+  --text-faint: rgba(247,246,240,0.55);
+
+  --shadow-soft:
+    0 10px 28px rgba(45,52,31,0.22);
+
+  --shadow-hover:
+    0 18px 42px rgba(45,52,31,0.32);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,
+body{
+  width:100%;
+  min-height:100%;
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
+body{
+
+  font-family:
+    'Inter',
+    'Poppins',
+    sans-serif;
+
+  color:var(--off-white);
+
+  min-height:100vh;
+
+  overflow-x:hidden;
+
+  position:relative;
+
+  background:
+
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(255,255,255,0.08) 0%,
+      rgba(255,255,255,0) 30%
+    ),
+
+    radial-gradient(
+      circle at 85% 75%,
+      rgba(55,65,39,0.18) 0%,
+      rgba(55,65,39,0) 35%
+    ),
+
+    linear-gradient(
+      135deg,
+      #89956f 0%,
+      #7f8b68 45%,
+      #778360 100%
+    );
+}
+
+
+/* =========================================================
+   DECORATIVE BLOBS
+========================================================= */
+
+.blob{
+
+  position:fixed;
+
+  border-radius:50%;
+
+  pointer-events:none;
+
+  z-index:0;
+
+  filter:blur(5px);
+
+  opacity:0.65;
+
+  animation:
+    blobFloat
+    20s
+    ease-in-out
+    infinite;
+}
+
+
+/* Blob kiri atas */
+
+.blob-1{
+
+  width:480px;
+  height:480px;
+
+  top:-180px;
+  left:-170px;
+
+  background:
+
+    radial-gradient(
+      circle at 40% 40%,
+      rgba(255,255,255,0.20),
+      rgba(255,255,255,0.08) 45%,
+      rgba(255,255,255,0) 72%
+    );
+
+  animation-duration:24s;
+}
+
+
+/* Blob kanan bawah */
+
+.blob-2{
+
+  width:440px;
+  height:440px;
+
+  bottom:-180px;
+  right:-150px;
+
+  background:
+
+    radial-gradient(
+      circle at 55% 55%,
+      rgba(60,70,43,0.30),
+      rgba(60,70,43,0.10) 45%,
+      rgba(60,70,43,0) 72%
+    );
+
+  animation-duration:28s;
+
+  animation-delay:-7s;
+}
+
+
+/* Blob kanan tengah */
+
+.blob-3{
+
+  width:330px;
+  height:330px;
+
+  top:38%;
+  right:-140px;
+
+  background:
+
+    radial-gradient(
+      circle at 40% 40%,
+      rgba(255,255,255,0.13),
+      rgba(255,255,255,0.04) 45%,
+      rgba(255,255,255,0) 72%
+    );
+
+  animation-duration:22s;
+
+  animation-delay:-11s;
+}
+
+
+/* Animasi blob */
+
+@keyframes blobFloat{
+
+  0%,
+  100%{
+    transform:
+      translate(0,0)
+      scale(1);
+  }
+
+  33%{
+    transform:
+      translate(22px,-25px)
+      scale(1.05);
+  }
+
+  66%{
+    transform:
+      translate(-18px,20px)
+      scale(0.97);
+  }
+
+}
+
+
+/* =========================================================
+   PARTICLE CANVAS
+========================================================= */
+
+#particle-canvas{
+
+  position:fixed;
+
+  inset:0;
+
+  width:100%;
+  height:100%;
+
+  z-index:0;
+
+  pointer-events:none;
+}
+
+
+/* =========================================================
+   MAIN PAGE
+========================================================= */
+
+.page{
+
+  position:relative;
+
+  z-index:1;
+
+  min-height:100vh;
+
+  width:100%;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  padding:
+    56px
+    20px
+    72px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header{
+
+  width:100%;
+
+  max-width:560px;
+
+  text-align:center;
+
+  margin-bottom:44px;
+
+  animation:
+    fadeSlideDown
+    0.8s
+    cubic-bezier(0.22,1,0.36,1)
+    both;
+}
+
+
+/* Icon */
+
+.header-icon{
+
+  display:block;
+
+  font-size:34px;
+
+  margin-bottom:10px;
+
+  filter:
+    drop-shadow(
+      0 4px 8px
+      rgba(50,60,35,0.15)
+    );
+}
+
+
+/* Judul */
+
+h1{
+
+  font-family:'Poppins',sans-serif;
+
+  font-weight:800;
+
+  font-size:
+    clamp(
+      28px,
+      6vw,
+      40px
+    );
+
+  line-height:1.15;
+
+  letter-spacing:-0.01em;
+
+  color:var(--off-white);
+
+  margin-bottom:10px;
+
+  text-shadow:
+    0 3px 12px
+    rgba(50,60,35,0.12);
+}
+
+
+/* Subtitle */
+
+.subtitle{
+
+  font-size:
+    clamp(
+      14px,
+      2.4vw,
+      16px
+    );
+
+  line-height:1.6;
+
+  font-weight:400;
+
+  color:var(--text-soft);
+}
+
+
+/* =========================================================
+   CHAPTER GRID
+========================================================= */
+
+.chapter-grid{
+
+  width:100%;
+
+  max-width:1040px;
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:16px;
+}
+
+
+/* =========================================================
+   CHAPTER CARD
+========================================================= */
+
+.chapter-card{
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:flex-start;
+
+  justify-content:center;
+
+  gap:6px;
+
+  min-height:96px;
+
+  padding:
+    22px
+    20px;
+
+  border-radius:22px;
+
+  text-decoration:none;
+
+  position:relative;
+
+  overflow:hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.18),
+      rgba(255,255,255,0.10)
+    );
+
+  border:
+    1px solid
+    rgba(255,255,255,0.16);
+
+  backdrop-filter:
+    blur(14px);
+
+  -webkit-backdrop-filter:
+    blur(14px);
+
+  box-shadow:
+    var(--shadow-soft);
+
+  opacity:0;
+
+  transform:
+    translateY(16px);
+
+  animation:
+    cardIn
+    0.6s
+    cubic-bezier(0.22,1,0.36,1)
+    forwards;
+
+  transition:
+    transform 0.3s
+      cubic-bezier(0.22,1,0.36,1),
+
+    box-shadow 0.3s
+      cubic-bezier(0.22,1,0.36,1),
+
+    background 0.3s ease,
+
+    border-color 0.3s ease;
+}
+
+
+/* Efek cahaya halus */
+
+.chapter-card::before{
+
+  content:"";
+
+  position:absolute;
+
+  width:140px;
+  height:140px;
+
+  top:-80px;
+  right:-70px;
+
+  border-radius:50%;
+
+  background:
+    rgba(255,255,255,0.08);
+
+  pointer-events:none;
+}
+
+
+/* =========================================================
+   BAB LABEL
+========================================================= */
+
+.chapter-card .bab-label{
+
+  font-family:'Poppins',sans-serif;
+
+  font-weight:700;
+
+  font-size:
+    clamp(
+      18px,
+      3.6vw,
+      22px
+    );
+
+  color:var(--off-white);
+
+  letter-spacing:-0.01em;
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.chapter-card .cta{
+
+  font-size:12.5px;
+
+  font-weight:500;
+
+  color:var(--text-faint);
+
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+
+/* =========================================================
+   CARD HOVER
+========================================================= */
+
+.chapter-card:hover,
+.chapter-card:focus-visible{
+
+  transform:
+    translateY(-5px)
+    scale(1.02);
+
+  box-shadow:
+    var(--shadow-hover);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.25),
+      rgba(255,255,255,0.15)
+    );
+
+  border-color:
+    rgba(255,255,255,0.30);
+}
+
+
+.chapter-card:hover .cta,
+.chapter-card:focus-visible .cta{
+
+  color:var(--off-white);
+
+  transform:
+    translateX(4px);
+}
+
+
+/* =========================================================
+   CARD ACTIVE
+========================================================= */
+
+.chapter-card:active{
+
+  transform:
+    translateY(-2px)
+    scale(1.005);
+}
+
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+.chapter-card:focus-visible{
+
+  outline:
+    2px solid
+    var(--off-white);
+
+  outline-offset:3px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer-note{
+
+  margin-top:40px;
+
+  font-size:12.5px;
+
+  text-align:center;
+
+  color:var(--text-faint);
+
+  animation:
+    fadeSlideUp
+    0.9s
+    cubic-bezier(0.22,1,0.36,1)
+    both;
+
+  animation-delay:0.35s;
+}
+
+
+/* =========================================================
+   PAGE ANIMATION
+========================================================= */
+
+@keyframes fadeSlideDown{
+
+  from{
+
+    opacity:0;
+
+    transform:
+      translateY(-16px);
+  }
+
+  to{
+
+    opacity:1;
+
+    transform:
+      translateY(0);
+  }
+
+}
+
+
+@keyframes fadeSlideUp{
+
+  from{
+
+    opacity:0;
+
+    transform:
+      translateY(16px);
+  }
+
+  to{
+
+    opacity:1;
+
+    transform:
+      translateY(0);
+  }
+
+}
+
+
+@keyframes cardIn{
+
+  to{
+
+    opacity:1;
+
+    transform:
+      translateY(0);
+  }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (min-width:640px){
+
+  .chapter-grid{
+
+    grid-template-columns:
+      repeat(3,1fr);
+
+    gap:18px;
+  }
+
+}
+
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media (min-width:960px){
+
+  .page{
+
+    padding:
+      72px
+      32px
+      90px;
+  }
+
+  .chapter-grid{
+
+    grid-template-columns:
+      repeat(4,1fr);
+
+    gap:20px;
+  }
+
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (min-width:1200px){
+
+  .chapter-grid{
+
+    grid-template-columns:
+      repeat(5,1fr);
+  }
+
+}
+
+
+/* =========================================================
+   SMALL PHONE
+========================================================= */
+
+@media (max-width:380px){
+
+  .page{
+
+    padding:
+      42px
+      16px
+      60px;
+  }
+
+  header{
+
+    margin-bottom:32px;
+  }
+
+  .chapter-grid{
+
+    gap:12px;
+  }
+
+  .chapter-card{
+
+    min-height:86px;
+
+    padding:
+      18px
+      16px;
+
+    border-radius:19px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion:reduce){
+
+  *{
+
+    animation-duration:
+      0.01ms !important;
+
+    animation-iteration-count:
+      1 !important;
+
+    transition-duration:
+      0.01ms !important;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =======================================================
+     BACKGROUND BLOBS
+======================================================= -->
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+
+<!-- =======================================================
+     PARTICLE CANVAS
+======================================================= -->
+
+<canvas id="particle-canvas"></canvas>
+
+
+<!-- =======================================================
+     MAIN PAGE
+======================================================= -->
+
+<div class="page">
+
+
+  <!-- HEADER -->
+
+  <header>
+
+    <span class="header-icon">
+      🌿
+    </span>
+
+    <h1>
+      KOTOba Flashcards
+    </h1>
+
+    <p class="subtitle">
+      Belajar Kotoba dengan cara yang simpel
+    </p>
+
+  </header>
+
+
+  <!-- =====================================================
+       CHAPTER GRID
+  ====================================================== -->
+
+  <main
+    class="chapter-grid"
+    aria-label="Daftar Bab Pembelajaran"
+  >
+
+
+    <!-- BAB 1 -->
+
+    <a
+      href="Bab_1.html"
+      class="chapter-card"
+      style="animation-delay:0.05s"
+    >
+
+      <span class="bab-label">
+        BAB 1
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 2 -->
+
+    <a
+      href="Bab_2.html"
+      class="chapter-card"
+      style="animation-delay:0.07s"
+    >
+
+      <span class="bab-label">
+        BAB 2
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 3 -->
+
+    <a
+      href="Bab_3.html"
+      class="chapter-card"
+      style="animation-delay:0.09s"
+    >
+
+      <span class="bab-label">
+        BAB 3
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 4 -->
+
+    <a
+      href="Bab_4.html"
+      class="chapter-card"
+      style="animation-delay:0.11s"
+    >
+
+      <span class="bab-label">
+        BAB 4
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 5 -->
+
+    <a
+      href="Bab_5.html"
+      class="chapter-card"
+      style="animation-delay:0.13s"
+    >
+
+      <span class="bab-label">
+        BAB 5
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 6 -->
+
+    <a
+      href="Bab_6.html"
+      class="chapter-card"
+      style="animation-delay:0.15s"
+    >
+
+      <span class="bab-label">
+        BAB 6
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 7 -->
+
+    <a
+      href="Bab_7.html"
+      class="chapter-card"
+      style="animation-delay:0.17s"
+    >
+
+      <span class="bab-label">
+        BAB 7
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 8 -->
+
+    <a
+      href="Bab_8.html"
+      class="chapter-card"
+      style="animation-delay:0.19s"
+    >
+
+      <span class="bab-label">
+        BAB 8
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 9 -->
+
+    <a
+      href="Bab_9.html"
+      class="chapter-card"
+      style="animation-delay:0.21s"
+    >
+
+      <span class="bab-label">
+        BAB 9
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 10 -->
+
+    <a
+      href="Bab_10.html"
+      class="chapter-card"
+      style="animation-delay:0.23s"
+    >
+
+      <span class="bab-label">
+        BAB 10
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 11 -->
+
+    <a
+      href="Bab_11.html"
+      class="chapter-card"
+      style="animation-delay:0.25s"
+    >
+
+      <span class="bab-label">
+        BAB 11
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 12 -->
+
+    <a
+      href="Bab_12.html"
+      class="chapter-card"
+      style="animation-delay:0.27s"
+    >
+
+      <span class="bab-label">
+        BAB 12
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 13 -->
+
+    <a
+      href="Bab_13.html"
+      class="chapter-card"
+      style="animation-delay:0.29s"
+    >
+
+      <span class="bab-label">
+        BAB 13
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 14 -->
+
+    <a
+      href="Bab_14.html"
+      class="chapter-card"
+      style="animation-delay:0.31s"
+    >
+
+      <span class="bab-label">
+        BAB 14
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 15 -->
+
+    <a
+      href="Bab_15.html"
+      class="chapter-card"
+      style="animation-delay:0.33s"
+    >
+
+      <span class="bab-label">
+        BAB 15
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 16 -->
+
+    <a
+      href="Bab_16.html"
+      class="chapter-card"
+      style="animation-delay:0.35s"
+    >
+
+      <span class="bab-label">
+        BAB 16
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 17 -->
+
+    <a
+      href="Bab_17.html"
+      class="chapter-card"
+      style="animation-delay:0.37s"
+    >
+
+      <span class="bab-label">
+        BAB 17
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 18 -->
+
+    <a
+      href="Bab_18.html"
+      class="chapter-card"
+      style="animation-delay:0.39s"
+    >
+
+      <span class="bab-label">
+        BAB 18
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 19 -->
+
+    <a
+      href="Bab_19.html"
+      class="chapter-card"
+      style="animation-delay:0.41s"
+    >
+
+      <span class="bab-label">
+        BAB 19
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 20 -->
+
+    <a
+      href="Bab_20.html"
+      class="chapter-card"
+      style="animation-delay:0.43s"
+    >
+
+      <span class="bab-label">
+        BAB 20
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 21 -->
+
+    <a
+      href="Bab_21.html"
+      class="chapter-card"
+      style="animation-delay:0.45s"
+    >
+
+      <span class="bab-label">
+        BAB 21
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 22 -->
+
+    <a
+      href="Bab_22.html"
+      class="chapter-card"
+      style="animation-delay:0.47s"
+    >
+
+      <span class="bab-label">
+        BAB 22
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 23 -->
+
+    <a
+      href="Bab_23.html"
+      class="chapter-card"
+      style="animation-delay:0.49s"
+    >
+
+      <span class="bab-label">
+        BAB 23
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 24 -->
+
+    <a
+      href="Bab_24.html"
+      class="chapter-card"
+      style="animation-delay:0.51s"
+    >
+
+      <span class="bab-label">
+        BAB 24
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+    <!-- BAB 25 -->
+
+    <a
+      href="Bab_25.html"
+      class="chapter-card"
+      style="animation-delay:0.53s"
+    >
+
+      <span class="bab-label">
+        BAB 25
+      </span>
+
+      <small class="cta">
+        Mulai Belajar →
+      </small>
+
+    </a>
+
+
+  </main>
+
+
+  <!-- FOOTER -->
+
+  <p class="footer-note">
+    25 Bab · KOTOba Flashcards
+  </p>
+
+
+</div>
+
+
+<!-- =======================================================
+     PARTICLE JAVASCRIPT
+======================================================= -->
+
+<script>
+
+(function initParticles(){
+
+  const canvas =
+    document.getElementById(
+      'particle-canvas'
+    );
+
+  const ctx =
+    canvas.getContext('2d');
+
+
+  let width;
+  let height;
+  let particles;
+
+
+  const MAX_DISTANCE = 130;
+
+  let particleCount = 50;
+
+
+  /* =====================================================
+     RESIZE
+  ====================================================== */
+
+  function resize(){
+
+    width =
+      canvas.width =
+      window.innerWidth;
+
+    height =
+      canvas.height =
+      window.innerHeight;
+
+
+    particleCount =
+      Math.max(
+        24,
+        Math.min(
+          65,
+          Math.floor(
+            (width * height) / 26000
+          )
+        )
+      );
+
+
+    createParticles();
+
+  }
+
+
+  /* =====================================================
+     CREATE PARTICLES
+  ====================================================== */
+
+  function createParticles(){
+
+    particles =
+      Array.from(
+        {
+          length:
+            particleCount
+        },
+
+        () => ({
+
+          x:
+            Math.random()
+            * width,
+
+          y:
+            Math.random()
+            * height,
+
+          vx:
+            (Math.random()-0.5)
+            * 0.18,
+
+          vy:
+            (Math.random()-0.5)
+            * 0.18,
+
+          r:
+            Math.random()
+            * 1.4
+            + 0.5
+
+        })
+      );
+
+  }
+
+
+  /* =====================================================
+     ANIMATION
+  ====================================================== */
+
+  function step(){
+
+    ctx.clearRect(
+      0,
+      0,
+      width,
+      height
+    );
+
+
+    /* PARTICLES */
+
+    for(
+      const p
+      of particles
+    ){
+
+      p.x += p.vx;
+
+      p.y += p.vy;
+
+
+      /* Bounce horizontal */
+
+      if(
+        p.x < 0 ||
+        p.x > width
+      ){
+
+        p.vx *= -1;
+
+      }
+
+
+      /* Bounce vertical */
+
+      if(
+        p.y < 0 ||
+        p.y > height
+      ){
+
+        p.vy *= -1;
+
+      }
+
+
+      /* Particle */
+
+      ctx.beginPath();
+
+      ctx.arc(
+        p.x,
+        p.y,
+        p.r,
+        0,
+        Math.PI * 2
+      );
+
+
+      ctx.fillStyle =
+        'rgba(255,255,255,0.22)';
+
+      ctx.fill();
+
+    }
+
+
+    /* =================================================
+       CONNECTING LINES
+    ================================================= */
+
+    for(
+      let i=0;
+      i<particles.length;
+      i++
+    ){
+
+      for(
+        let j=i+1;
+        j<particles.length;
+        j++
+      ){
+
+        const a =
+          particles[i];
+
+        const b =
+          particles[j];
+
+
+        const dx =
+          a.x - b.x;
+
+        const dy =
+          a.y - b.y;
+
+
+        const distance =
+          Math.sqrt(
+            dx * dx +
+            dy * dy
+          );
+
+
+        if(
+          distance <
+          MAX_DISTANCE
+        ){
+
+          const opacity =
+            (
+              1 -
+              distance /
+              MAX_DISTANCE
+            )
+            * 0.07;
+
+
+          ctx.beginPath();
+
+          ctx.moveTo(
+            a.x,
+            a.y
+          );
+
+          ctx.lineTo(
+            b.x,
+            b.y
+          );
+
+
+          ctx.strokeStyle =
+            `rgba(
+              255,
+              255,
+              255,
+              ${opacity.toFixed(3)}
+            )`;
+
+
+          ctx.lineWidth=1;
+
+          ctx.stroke();
+
+        }
+
+      }
+
+    }
+
+
+    requestAnimationFrame(step);
+
+  }
+
+
+  /* =====================================================
+     REDUCED MOTION
+  ====================================================== */
+
+  const prefersReducedMotion =
+    window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+
+  window.addEventListener(
+    'resize',
+    resize
+  );
+
+
+  resize();
+
+
+  if(
+    !prefersReducedMotion
+  ){
+
+    requestAnimationFrame(
+      step
+    );
+
+  }
+  else{
+
+    ctx.clearRect(
+      0,
+      0,
+      width,
+      height
+    );
+
+  }
+
+})();
+
+</script>
+
+
+</body>
+</html>
